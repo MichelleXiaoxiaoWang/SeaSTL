@@ -1,0 +1,10 @@
+prefix=build
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: ustl
+Description: A size-optimized STL implementation
+Version: 2.8
+Libs: -L${libdir} -lustl
+Libs.private: -Wl,-gc-sections -lsupc++
+Cflags: -I${includedir}

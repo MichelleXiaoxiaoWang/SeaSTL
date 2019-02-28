@@ -1,0 +1,53 @@
+#ifndef VECTOR_H
+#define VECTOR_H
+
+#define SEASTL_VECTOR_SIZE 10
+
+namespace std {
+
+template <typename T>
+class vector {
+private:
+  static const unsigned buffer_size = SEASTL_VECTOR_SIZE;
+  unsigned int cap;
+  unsigned int count;
+  T buf[buffer_size];
+
+  T& non_D();
+  const T& non_D_const() const;
+
+public:
+  typedef T				value_type;
+  typedef T *     iterator;
+  typedef value_type*			pointer;
+  typedef const value_type*		const_pointer;
+  typedef value_type&			reference;
+  typedef const value_type&		const_reference;
+  typedef const_pointer		const_iterator;
+public:
+  // Big 5
+  vector();
+  vector(unsigned int n);
+  vector(unsigned int n, const T& val);
+  vector(const vector<T>& v);
+  ~vector();
+
+  //Methods
+  inline unsigned int capacity() const { return cap; }
+  inline unsigned int size() const { return count; }
+  inline bool empty() const { return count == 0; }
+  inline iterator begin() { return buf;}
+  inline iterator end() { return buf + size(); }
+  inline T& front() { return buf[0]; }
+  inline T& back() { return buf[count]; }
+  inline void clear() { count = 0; cap = 0;}
+
+  void push_back (const T& v = T());
+  void resize(unsigned int n);
+  void reserve(unsigned int n);
+
+  T & operator[](unsigned int index);
+  };
+} // namespace ustl
+#include <vector_impl.tpp>
+#endif

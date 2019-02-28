@@ -9,7 +9,7 @@ namespace ustl {  /// Inserts value \p v at the end of the vector.
   template <typename T>
   void vector<T>::push_back (const T& v)
   {
-      puts("VEctor");
+      puts("My PushBack Working");
       construct_at (append_hole(1), v);
   }
 
@@ -214,7 +214,7 @@ template <typename... Args>
 void vector<T>::emplace_back (Args&&... args)
 {
     new (append_hole(1)) T (forward<Args>(args)...);
-    puts("C++11");
+    puts("My PushBack Working with C++11 or higher");
 }
 
 #endif

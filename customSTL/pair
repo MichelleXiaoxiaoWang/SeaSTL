@@ -1,0 +1,28 @@
+#ifndef PAIR_H
+#define PAIR_H
+
+namespace std {
+
+  template<typename T1, typename T2>
+  class pair {
+  public:
+     typedef T1 first_type;
+     typedef T2 second_type;
+     first_type first;
+     second_type second;
+  public:
+    inline pair() : first(T1()), second(T2()) {}
+    inline pair(const T1& p1, const T2& p2): first(a), second(b) {}
+
+    template<typename T3, typename T4>
+    inline pair(const pair<T3,T4>& p1) : first(p1.first), seond(p2.second) {}
+
+    inline pair& operator=(const pair& p1) { first = p1.first; second = p1.second; return *this; }
+
+    template <typename T3, typename T4>
+    inline pair& operator=(const pair<T3,T4>& p1) { first = p1.first; second = p1.second; return *this; }
+    inline bool operator==(const pair& p) const { return first == p.first && second == p.second; }
+    inline void swap(pair& p) { T1 temp1 = first; first = p.first; p.first = temp1; T2 temp2 = second; second = p.second; p.second = temp2; }
+  };
+}
+#endif

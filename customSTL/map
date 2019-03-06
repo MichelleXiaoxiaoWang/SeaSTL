@@ -1,0 +1,63 @@
+#ifndef MAP_H
+#define MAP_H
+
+//#include <pair>
+#include <cstdio>
+#include <./vector>
+namespace std {
+
+  template<typename K, typename V>
+  class map : public vector<pair<K,V> > {
+  public:
+    typedef K key_type;
+    typedef V data_type;
+    typedef const map<K,V>&         rcself_t;
+    typedef const K&					      const_key_ref;
+    typedef const V&				      	const_data_ref;
+    typedef vector<pair<K,V>>				base_class;
+    typedef std::pair<key_type, data_type> value_type;
+    typedef value_type* pointer;
+    typedef typename base_class::iterator iterator;
+    typedef typename base_class::const_iterator const_iterator;
+  public:
+    map() : base_class() { }
+    explicit inline map(unsigned int n) : base_class(n) {puts("\nHEREWEGO\n");}
+    map(rcself_t v) : base_class(v) {puts("GERE");}
+    rcself_t operator=(rcself_t v) { base_class::operator=(v); puts("MINE"); return *this;}
+    const_data_ref operator[] (const_key_ref i) const { return (*this).find(i); }
+    iterator begin() { return base_class::begin(); }
+    iterator end() { return base_class::end(); }
+    const_iterator begin() const { return base_class::begin(); }
+    const_iterator end() const { return base_class::end(); }
+
+    bool has_key(const key_type &key) {
+        for (iterator i = begin(); i!=end(); i++) {
+          if (i->first == key) return true;
+        }
+        return false;
+    }
+
+    data_type&			operator[] (const_key_ref key) {
+      if (has_key(key)) {
+        for (iterator i = begin(); i!=end(); ++i) {
+          if (i->first == key) return i->second;
+        }
+      }
+    }
+
+    map&			operator= (map&& v) { }
+
+    const_iterator find(const_key_ref k) const {
+      for (const_iterator i = begin(); i!=end(); ++i) {
+        if (i->first == k) {
+          return i;
+        }
+      }
+      return nullptr;
+    }
+
+    iterator find(const_key_ref k) { return const_cast<iterator> (const_cast<rcself_t>(*this).find (k)); }
+  };
+}
+
+#endif

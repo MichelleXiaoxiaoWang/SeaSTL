@@ -26,4 +26,4 @@ fi
 
 
 # Command for CASS
-# clang++ -g -std=c++11 -fexceptions -Wall -Wextra -Wswitch-default -Wshadow -Wnon-virtual-dtor -I../src/Flight_Software/library -I../src/Flight_Software/flight_algorithms  -I../src/Utilities/CASS_DDSim/sim_support ../src/Flight_Software/library/*.cpp ../src/Flight_Software/flight_algorithms/*.cpp ../src/Utilities/CASS_DDSim/sim_support/*.cpp ../src/Utilities/CASS_DDSim/CASS_DDSim.cpp -I ../../mySTL/ -o out
+# clang++ -g -std=c++11 -fexceptions -Wall -Wextra -Wswitch-default -Wshadow -Wnon-virtual-dtor -I../src/Flight_Software/library -I../src/Flight_Software/flight_algorithms  -I../src/Utilities/CASS_DDSim/sim_support ../src/Flight_Software/library/*.cpp ../src/Flight_Software/flight_algorithms/*.cpp ../src/Utilities/CASS_DDSim/sim_support/*.cpp ../src/Utilities/CASS_DDSim/CASS_DDSim.cpp -I ../../customSTL/ -o out

@@ -1,9 +1,72 @@
-1.
+sample file:
+namespace std {
+
+void foo();
+void bar(int) {}
+    
+template <typename T>
+class vector {
+  void push_back(const T&) {
+     std::bar(1);
+  }
+  void foo2(int* a, int b){}
+};
+}
+
+
+---1. match all functions 
+match functionDecl()
+Match #1:
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:5:1: note: "root" binds here
+void foo();
+^~~~~~~~~~
+1 match.
+clang-query> match functionDecl()
+
+Match #1:
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:5:1: note: "root" binds here
+void foo();
+^~~~~~~~~~
+
+Match #2:
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:6:1: note: "root" binds here
+void bar(int) {}
+^~~~~~~~~~~~~~~~
+
+Match #3:
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:10:3: note: "root" binds here
+  void push_back(const T&) {
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Match #4:
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:14:5: note: "root" binds here
+    int foo2(int* a, int b)
+    ^~~~~~~~~~~~~~~~~~~~~~~
+4 matches.
+
+
+---2. match the function called "foo"
+
+Match #1: match functionDecl(hasName("foo"))
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:5:1: note: "root" binds here
+void foo();
+^~~~~~~~~~
+1 match.
+
+
+
+---3. match the content inside the function push_back which is inside a compoundStmt and has a call method as its body
 match callExpr(hasParent(compoundStmt()),hasDescendant(implicitCastExpr())) — 
 match  std::bar(1);
 
 
-2.
+---4. match the methods which are inside a class called "vector"
  match cxxMethodDecl(hasParent(cxxRecordDecl(hasName("vector")))) — match
 Match #1:
 
@@ -16,3 +79,4 @@ Match #2:
 /Users/MichelleWang/Desktop/ura/file1.cpp:14:5: note: "root" binds here
     int foo2(int* a, int b)
     ^~~~~~~~~~~~~~~~~~~~~~~
+

@@ -1,0 +1,18 @@
+1.
+match callExpr(hasParent(compoundStmt()),hasDescendant(implicitCastExpr())) — 
+match  std::bar(1);
+
+
+2.
+ match cxxMethodDecl(hasParent(cxxRecordDecl(hasName("vector")))) — match
+Match #1:
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:10:3: note: "root" binds here
+  void push_back(const T&) {
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Match #2:
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:14:5: note: "root" binds here
+    int foo2(int* a, int b)
+    ^~~~~~~~~~~~~~~~~~~~~~~

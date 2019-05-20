@@ -67,7 +67,7 @@ match  std::bar(1);
 
 
 ---4. match the methods which are inside a class called "vector"
- match cxxMethodDecl(hasParent(cxxRecordDecl(hasName("vector")))) — match
+ match cxxMethodDecl(hasParent(cxxRecordDecl(hasName("vector"))),hasAncestor(namespaceDecl(hasName("std"))))
 Match #1:
 
 /Users/MichelleWang/Desktop/ura/file1.cpp:10:3: note: "root" binds here
@@ -80,3 +80,32 @@ Match #2:
     int foo2(int* a, int b)
     ^~~~~~~~~~~~~~~~~~~~~~~
 
+---5. match the friendFunction in a class called "Box"
+match friendDecl(hasParent(cxxRecordDecl(hasName("Box"))))
+
+Match #1:
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:29:5: note: "root" binds here
+    friend void printWidth( Box box );
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 match.
+
+---6. match the constructor function in a class called string
+ match cxxConstructorDecl(hasParent(cxxRecordDecl(hasName("String"))))
+
+Match #1:
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:21:9: note: "root" binds here
+        String(char *); // constructor
+        ^~~~~~~~~~~~~~
+1 match.
+
+---7. match the destructor function in a class called string
+match cxxDestructorDecl(hasParent(cxxRecordDecl(hasName("String"))))
+
+Match #1:
+
+/Users/MichelleWang/Desktop/ura/file1.cpp:22:9: note: "root" binds here
+        ~String();      // destructor
+        ^~~~~~~~~
+1 match.

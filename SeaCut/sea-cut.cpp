@@ -40,12 +40,6 @@ static const SmallVector<BoundNodes, 1> findDefinition(ASTContext &Context, std:
 
 
     return Results;
-//  if (Results.empty()) {
-//    llvm::errs() << "Definition not found\n";
-//    return nullptr;
-//  }
-//
-//  return selectFirst<CXXMethodDecl>("stuff", Results);
 }
 
 class DeleteBodyConsumer : public ASTConsumer {
@@ -59,22 +53,27 @@ public:
   DeleteBodyConsumer &operator=(const DeleteBodyConsumer &) = delete;
 
   void HandleTranslationUnit(ASTContext &Context) override {
-    const CXXMethodDecl *MD = findDefinition(Context, "vector", "std", "stuff");
-    if (!MD)
-      return;
 
-    llvm::errs() << "Match found:\n";
-    MD->dump();
+    auto Results = findDefinition(Context, "vector", "std", "stuff");
 
-    SourceRange body = MD->getBody()->getSourceRange();
-    StringRef newBody = ";";
+      for (const BoundNodes &N : Results) {
+          const CXXMethodDecl *MD = N.getNodeAs<CXXMethodDecl>("stuff");
+          if (!MD)
+              return;
 
-    tooling::Replacement replacement(Context.getSourceManager(),
-                                     CharSourceRange::getTokenRange(body),
-                                     newBody, Context.getLangOpts());
-    llvm::errs() << "New replacement: \n" << replacement.toString() << "\n";
+          llvm::errs() << "Match found:\n";
+          MD->dump();
 
-    consumeError(m_replacements[replacement.getFilePath()].add(replacement));
+          SourceRange body = MD->getBody()->getSourceRange();
+          StringRef newBody = ";";
+
+          tooling::Replacement replacement(Context.getSourceManager(),
+                                           CharSourceRange::getTokenRange(body),
+                                           newBody, Context.getLangOpts());
+          llvm::errs() << "New replacement: \n" << replacement.toString() << "\n";
+
+          consumeError(m_replacements[replacement.getFilePath()].add(replacement));
+      }
   }
 };
 

@@ -33,17 +33,19 @@ tooling::Replacements &RefactoringCallback::getReplacements() {
 
 
 
-static const CXXMethodDecl *findDefinition(ASTContext &Context, std::string parentName, std::string AncestorName, std::string BindName) {
+static const SmallVector<BoundNodes, 1> findDefinition(ASTContext &Context, std::string parentName, std::string AncestorName, std::string BindName) {
 
-    auto Results =  match(cxxMethodDecl(hasParent(cxxRecordDecl(hasName(parentName))),
+    SmallVector<BoundNodes, 1> Results =  match(cxxMethodDecl(hasParent(cxxRecordDecl(hasName(parentName))),
                                hasAncestor(namespaceDecl(hasName(AncestorName)))).bind(BindName),Context);
 
-  if (Results.empty()) {
-    llvm::errs() << "Definition not found\n";
-    return nullptr;
-  }
 
-  return selectFirst<CXXMethodDecl>("stuff", Results);
+    return Results;
+//  if (Results.empty()) {
+//    llvm::errs() << "Definition not found\n";
+//    return nullptr;
+//  }
+//
+//  return selectFirst<CXXMethodDecl>("stuff", Results);
 }
 
 class DeleteBodyConsumer : public ASTConsumer {
